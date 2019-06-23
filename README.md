@@ -24,7 +24,7 @@ you can utilize the bash scripts in the `bin/` directory.
     docker-compose up -d
     ```
 
-*   To completely eliminate the Nextcloud instance and all volumes:
+*   To completely eliminate the Nextcloud instance, volumes, and data:
 
     ```bash
     bash bin/destroy.sh
