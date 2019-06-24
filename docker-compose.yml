@@ -3,9 +3,7 @@ version: '3'
 services:
   proxy:
     container_name: nextcloud-proxy
-    image: jwilder/nginx-proxy:alpine
-    labels:
-      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy=true"
+    image: jwilder/nginx-proxy:latest
     networks:
       - nextcloud_network
     ports:
@@ -20,28 +18,13 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
-  letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: nextcloud-letsencrypt
-    depends_on:
-      - proxy
-    networks:
-      - nextcloud_network
-    restart: unless-stopped
-    volumes:
-      - ./proxy/certs:/etc/nginx/certs:rw
-      - ./proxy/vhost.d:/etc/nginx/vhost.d:rw
-      - ./proxy/html:/usr/share/nginx/html:rw
-      - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-
   db:
     container_name: nextcloud-mariadb
     environment:
-      - MYSQL_ROOT_PASSWORD=nextcloud
-      - MYSQL_PASSWORD=nextcloud
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
     image: mariadb
     networks:
       - nextcloud_network
@@ -54,12 +37,9 @@ services:
     container_name: nextcloud-app
     depends_on:
       - db
-      - letsencrypt
       - proxy
     environment:
-      - VIRTUAL_HOST=nextcloud.bletchley.net
-      - LETSENCRYPT_HOST=nextcloud.bletchley.net
-      - LETSENCRYPT_EMAIL=sonofborge@protonmail.com
+      - VIRTUAL_HOST=${VIRTUAL_HOST}
     image: nextcloud:latest
     networks:
       - nextcloud_network
