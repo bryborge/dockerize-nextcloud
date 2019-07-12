@@ -32,3 +32,21 @@ This is a basic project that makes [Nextcloud](https://nextcloud.com/) deploymen
     ```bash
     bash bin/destroy.sh
     ```
+
+## Troubleshooting
+
+Trying to get your iOS device to connect to the server,
+but getting a "CSRF Check Failed" message?
+
+Try adding these two lines to your `app/config/config.php`:
+
+```php
+<?php
+$CONFIG = array (
+  ...
+  'overwrite.cli.url' => 'https://home.secret-domain.com',
+  'overwriteprotocol' => 'https',
+  ...
+```
+
+Then try adding again.
