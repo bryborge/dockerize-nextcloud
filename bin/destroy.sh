@@ -7,6 +7,7 @@ docker-compose down
 
 # remove volumes
 docker volume rm nextcloud_app
+docker volume rm nextcloud_db
 
 #
 # Remove local app folders and files?
