@@ -1,30 +1,32 @@
-version: '3'
+version: "3"
 
 services:
-  db:
-    container_name: nextcloud-mariadb
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-    image: mariadb
-    restart: unless-stopped
-    volumes:
-      - db:/var/lib/mysql
-      - /etc/localtime:/etc/localtime:ro
-
   app:
     container_name: nextcloud-app
     depends_on:
       - db
     environment:
-      - NETWORK_ACCESS=${NETWORK_ACCESS}
-      - VIRTUAL_HOST=${VIRTUAL_HOST}
-    expose:
-      - 80
+      - TZ=${TZ}
     image: nextcloud:latest
-    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=nextcloud"
+      - "traefik.frontend.rule=Host:nextcloud.${DOMAINNAME}"
+      - "traefik.port=443"
+      - "traefik.protocol=https"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=example.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=true"
+    networks:
+      - traefik_proxy
+    restart: always
     volumes:
       - app:/var/www/html
       - ./app/config:/var/www/html/config
@@ -33,11 +35,41 @@ services:
       - ./app/themes:/var/www/html/themes
       - /etc/localtime:/etc/localtime:ro
 
+  db:
+    container_name: nextcloud-mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+    image: mariadb
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=nextcloud-db"
+      - "traefik.frontend.rule=Host:nextcloud-db.${DOMAINNAME}"
+      - "traefik.port=443"
+      - "traefik.protocol=https"
+      - "traefik.docker.network=traefik_proxy"
+      - "traefik.frontend.headers.SSLRedirect=true"
+      - "traefik.frontend.headers.STSSeconds=315360000"
+      - "traefik.frontend.headers.browserXSSFilter=true"
+      - "traefik.frontend.headers.contentTypeNosniff=true"
+      - "traefik.frontend.headers.forceSTSHeader=true"
+      - "traefik.frontend.headers.SSLHost=example.com"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+      - "traefik.frontend.headers.frameDeny=true"
+    networks:
+      - traefik_proxy
+    restart: always
+    volumes:
+      - db:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+
 volumes:
   app:
   db:
 
 networks:
-  default:
-    external:
-      name: nginx-proxy
+  traefik_proxy:
+    external: true

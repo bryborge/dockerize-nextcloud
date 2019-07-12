@@ -6,32 +6,19 @@ This is a basic project that makes [Nextcloud](https://nextcloud.com/) deploymen
 
 *   [Docker](https://docs.docker.com/install/)
 *   [Docker Compose](https://docs.docker.com/compose/install/)
-*   [nginx-proxy](https://github.com/sonofborge/dockerize-nginx-proxy)
-*   A Linux server to deploy to
 
 ## Up and Running
 
 1.  Pull down the repo
 
     ```sh
-    git pull https://github.com/sonofborge/dockerize-nextcloud.git nextcloud
+    git clone https://github.com/sonofborge/dockerize-nextcloud.git nextcloud
     ```
 
-1.  Create the `.env` file
+1.  Create and modify `.env` for your needs.
 
     ```sh
     cp .env.example .env
-    ```
-
-1.  Modify the environment variables to meet your needs (or keep the defaults)
-
-    ```sh
-    MYSQL_ROOT_PASSWORD=nextcloud
-    MYSQL_PASSWORD=nextcloud
-    MYSQL_DATABASE=nextcloud
-    MYSQL_USER=nextcloud
-    NETWORK_ACCESS=internal
-    VIRTUAL_HOST=localhost
     ```
 
 1.  Run Docker Compose
@@ -40,12 +27,8 @@ This is a basic project that makes [Nextcloud](https://nextcloud.com/) deploymen
     docker-compose up -d
     ```
 
-That's it!
+1.  To completely eliminate the Nextcloud instance and all associated volumes.
 
-## Scripts
-
-The `scripts/` directory in this project aid in various operational tasks.
-Please read them before executing them.
-To my knowledge (and for my purposes) they work fully as intended,
-but they may not do what _you_ intend them to do.
-You've been warned.
+    ```bash
+    bash bin/destroy.sh
+    ```

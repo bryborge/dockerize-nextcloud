@@ -6,7 +6,6 @@ set -euo pipefail
 docker-compose down
 
 # remove volumes
-docker volume rm nextcloud_db
 docker volume rm nextcloud_app
 
 #
