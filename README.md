@@ -1,11 +1,13 @@
 # Nextcloud (Dockerized)
 
-This is a basic project that makes [Nextcloud](https://nextcloud.com/) deployment a little easier.
+This is a project that puts [Nextcloud](https://nextcloud.com/) in a container and is specifically designed to work with
+[this](https://github.com/sonofborge/dockerize-traefik) Traefik project.
 
 ## Requirements
 
 *   [Docker](https://docs.docker.com/install/)
 *   [Docker Compose](https://docs.docker.com/compose/install/)
+*   A linux box to deploy to ;)
 
 ## Up and Running
 
@@ -32,6 +34,10 @@ This is a basic project that makes [Nextcloud](https://nextcloud.com/) deploymen
     ```bash
     bash bin/destroy.sh
     ```
+
+If all went well,
+you should now be running Nextcloud inside a container behind your
+[Traefik reverse proxy](https://github.com/sonofborge/dockerize-traefik).
 
 ## Troubleshooting
 
