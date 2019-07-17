@@ -6,8 +6,13 @@ set -euo pipefail
 docker-compose down
 
 # remove volumes
-docker volume rm nextcloud_app
-docker volume rm nextcloud_db
+if [ "$(docker volume ls | grep nextcloud)" ]; then
+  docker volume rm nextcloud_app
+  docker volume rm nextcloud_db
+else
+  echo "No Nextcloud volumes found. Skipping ..."
+  printf "\n"
+fi
 
 #
 # Remove local app folders and files?
