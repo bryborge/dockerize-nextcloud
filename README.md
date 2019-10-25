@@ -1,7 +1,10 @@
 # Nextcloud (Dockerized)
 
-This is a project that puts [Nextcloud](https://nextcloud.com/) in a container and is specifically designed to work with
-[this](https://github.com/sonofborge/dockerize-traefik) Traefik project.
+This is a project that puts
+[Nextcloud](https://nextcloud.com/)
+in a container and is specifically designed to work with
+[this](https://github.com/sonofborge/dockerize-traefik)
+Traefik project.
 
 ## Requirements
 
@@ -27,12 +30,6 @@ This is a project that puts [Nextcloud](https://nextcloud.com/) in a container a
 
     ```sh
     docker-compose up -d
-    ```
-
-1.  To completely eliminate the Nextcloud instance and all associated volumes.
-
-    ```bash
-    bash bin/destroy.sh
     ```
 
 If all went well,
