@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   app:
+    command: -H unix:///var/run/docker.sock
     container_name: nextcloud-app
     depends_on:
       - db
