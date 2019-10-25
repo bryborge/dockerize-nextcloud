@@ -1,4 +1,4 @@
-# Nextcloud (Dockerized)
+# Dockerize Nextcloud
 
 This is a project that puts
 [Nextcloud](https://nextcloud.com/)

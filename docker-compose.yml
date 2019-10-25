@@ -10,8 +10,6 @@ services:
     image: nextcloud:17.0
     labels:
       - "traefik.enable=true"
-      # - "traefik.port=80"
-      # - "traefik.protocol=http"
       - "traefik.docker.network=traefik_proxy"
       - "traefik.http.routers.nextcloud.entrypoints=websecure"
       - "traefik.http.routers.nextcloud.rule=Host(`nextcloud.${DOMAIN_NAME}`)"
