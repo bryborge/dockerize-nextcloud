@@ -36,6 +36,17 @@ If all went well,
 you should now be running Nextcloud inside a container behind your
 [Traefik reverse proxy](https://github.com/sonofborge/dockerize-traefik).
 
+## After Installation
+
+1.  You have to create a new user,
+    and in order to do that,
+    you need to explicitly tell Nextcloud how to access the mariadb database.
+    You can find the IP address with the following command:
+
+    ```sh
+    docker inspect nextcloud-mariadb
+    ```
+
 ## Troubleshooting
 
 Trying to get your iOS device to connect to the server,
