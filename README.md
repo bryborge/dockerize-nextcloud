@@ -47,20 +47,19 @@ you should now be running Nextcloud inside a container behind your
     docker inspect nextcloud-mariadb
     ```
 
-## Troubleshooting
+1.  Additionally,
+    you need to tweak the configuration for nextcloud to handle redirecting the Nextcloud client correctly behind a
+    proxy.
+    More information can be found
+    [here](https://github.com/nextcloud/server/issues/13431#issuecomment-456453585).
 
-Trying to get your iOS device to connect to the server,
-but getting a "CSRF Check Failed" message?
+    Open `./app/config/config.php` and find the line `{...} 'overwrite.cli.url' => 'https://mydomain.com',` and add the
+    following:
 
-Try adding these two lines to your `app/config/config.php`:
+    ```php
+    ...
+    'overwritehost' => 'domain.com',
+    'overwriteprotocol' => 'https',
+    ```
 
-```php
-<?php
-$CONFIG = array (
-  ...
-  'overwrite.cli.url' => 'https://home.secret-domain.com',
-  'overwriteprotocol' => 'https',
-  ...
-```
-
-Then try adding again.
+    Save this change and try connecting the client again.
